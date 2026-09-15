@@ -1,0 +1,57 @@
+name: ClaudeUsage
+options:
+  bundleIdPrefix: com.rajatbhagat
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    # "Sign to Run Locally" — enough for a widget on your own Mac.
+    # Switch to your Apple ID team in Signing & Capabilities if you prefer.
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: NO
+targets:
+  ClaudeUsage:
+    type: application
+    platform: macOS
+    sources:
+      - ClaudeUsage
+      - Shared
+    dependencies:
+      - target: ClaudeUsageWidget
+        embed: true
+    info:
+      path: ClaudeUsage/Info.plist
+      properties:
+        CFBundleDisplayName: Claude Usage
+        LSUIElement: true
+        NSHumanReadableCopyright: ""
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.rajatbhagat.claudeusage
+        PRODUCT_NAME: ClaudeUsage
+  ClaudeUsageWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - ClaudeUsageWidget
+      - Shared
+    info:
+      path: ClaudeUsageWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Claude Usage Widget
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: ClaudeUsageWidget/ClaudeUsageWidget.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.rajatbhagat.claudeusage.widget
+        PRODUCT_NAME: ClaudeUsageWidget
+        SKIP_INSTALL: YES
