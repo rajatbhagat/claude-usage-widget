@@ -65,7 +65,6 @@ Read this before running it — the app touches two sensitive things on your Mac
 ## Build
 
 ```sh
-sudo xcodebuild -license accept   # once, if you haven't
 ./build.sh                        # builds Release, installs ~/Applications/ClaudeUsage.app, launches it
 ```
 
