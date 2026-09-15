@@ -66,10 +66,11 @@ struct UsageSnapshot: Codable, Equatable {
 /// its own container's Application Support folder and the unsandboxed app writes
 /// straight into that container path.
 enum SnapshotStore {
-    static let widgetBundleID = "com.rajatbhagat.claudeusage.widget"
-
     static var url: URL {
         let isSandboxed = ProcessInfo.processInfo.environment["APP_SANDBOX_CONTAINER_ID"] != nil
+        // The widget's bundle id is the app's plus ".widget" (see project.yml), so a
+        // fork that renames the app doesn't have to touch this.
+        let widgetBundleID = (Bundle.main.bundleIdentifier ?? "com.rajatbhagat.claudeusage") + ".widget"
         let support = isSandboxed
             ? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             : FileManager.default.homeDirectoryForCurrentUser
