@@ -48,8 +48,20 @@ struct UsageWidgetView: View {
     let entry: UsageEntry
 
     var body: some View {
+        WidgetContent(family: family, snapshot: entry.snapshot)
+            .containerBackground(.fill.tertiary, for: .widget)
+    }
+}
+
+/// Family is a parameter (not read from the environment) so tools/render-screenshots
+/// can draw every size outside a widget host.
+struct WidgetContent: View {
+    let family: WidgetFamily
+    let snapshot: UsageSnapshot?
+
+    var body: some View {
         Group {
-            if let snapshot = entry.snapshot {
+            if let snapshot {
                 switch family {
                 case .systemSmall: SmallLayout(snapshot: snapshot)
                 case .systemMedium: MediumLayout(snapshot: snapshot)
@@ -64,7 +76,6 @@ struct UsageWidgetView: View {
                 .foregroundStyle(.secondary)
             }
         }
-        .containerBackground(.fill.tertiary, for: .widget)
     }
 }
 
